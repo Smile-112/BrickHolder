@@ -1,0 +1,302 @@
+{
+    "schemes": [
+        "http"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Сервис для работы с базой данных",
+        "title": "BrickHolder.data-service",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8081",
+    "basePath": "/",
+    "paths": {
+        "/api/lego/details": {
+            "get": {
+                "description": "Возвращает список деталей",
+                "tags": [
+                    "lego"
+                ],
+                "summary": "Get details",
+                "responses": {}
+            },
+            "post": {
+                "description": "Добавляет деталь в базу",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lego"
+                ],
+                "summary": "Создать деталь Lego",
+                "responses": {
+                    "201": {
+                        "description": "Запись успешно добавлена"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/lego/minifigs": {
+            "get": {
+                "description": "Возвращает список минифигурок",
+                "tags": [
+                    "lego"
+                ],
+                "summary": "Get minifigs",
+                "responses": {}
+            },
+            "post": {
+                "description": "Добавляет минифигурку в базу",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lego"
+                ],
+                "summary": "Создать минифигурку Lego",
+                "responses": {
+                    "201": {
+                        "description": "Запись успешно добавлена"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/lego/series": {
+            "get": {
+                "description": "Возвращает список серий",
+                "tags": [
+                    "lego"
+                ],
+                "summary": "Get series",
+                "responses": {}
+            },
+            "post": {
+                "description": "Добавляет серию в базу",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lego"
+                ],
+                "summary": "Создать серию Lego",
+                "parameters": [
+                    {
+                        "description": "Series data",
+                        "name": "series",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Series"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Запись успешно добавлена"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/lego/sets": {
+            "get": {
+                "description": "Возвращает список наборов",
+                "tags": [
+                    "lego"
+                ],
+                "summary": "Get sets",
+                "responses": {}
+            },
+            "post": {
+                "description": "Добавляет набор в базу",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "lego"
+                ],
+                "summary": "Добавить набор Lego",
+                "parameters": [
+                    {
+                        "description": "Set data",
+                        "name": "set",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Set"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Запись успешно добавлена"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/api/users": {
+            "get": {
+                "description": "Возвращает список всех пользователей",
+                "tags": [
+                    "users"
+                ],
+                "summary": "Получить список всех пользователей",
+                "responses": {}
+            },
+            "post": {
+                "description": "Добавляет пользователя в базу при регистрации",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Создать пользователя",
+                "parameters": [
+                    {
+                        "description": "Series data",
+                        "name": "series",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Запись успешно добавлена"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.Series": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parent": {
+                    "$ref": "#/definitions/models.Series"
+                },
+                "parent_id": {
+                    "type": "integer"
+                },
+                "parent_series_id": {
+                    "description": "nullable внешний ключ",
+                    "type": "integer"
+                },
+                "series_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.Set": {
+            "type": "object",
+            "properties": {
+                "last_modified_dt": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "num_parts": {
+                    "type": "integer"
+                },
+                "series": {
+                    "$ref": "#/definitions/models.Series"
+                },
+                "set_img_url": {
+                    "type": "string"
+                },
+                "set_num": {
+                    "type": "string"
+                },
+                "set_url": {
+                    "type": "string"
+                },
+                "theme_id": {
+                    "description": "RebrickableID из Series",
+                    "type": "integer"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "Логин": {
+                    "type": "string"
+                },
+                "Пароль": {
+                    "type": "string"
+                },
+                "Пометка удаления": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

@@ -1,0 +1,179 @@
+basePath: /
+host: localhost:8080
+info:
+  contact: {}
+  description: Сервис для пользовательских действий.
+  title: BrickHolder.user-service
+  version: "1.0"
+paths:
+  /api/users/{user_token}/minifigslists:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет список минифигурок пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удаление списка минифигурок
+      tags:
+      - usersactions
+    patch:
+      consumes:
+      - application/json
+      description: Обновляет пользовательский список минифигурок
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Обновляет пользовательский список минифигурок
+      tags:
+      - usersactions
+    post:
+      consumes:
+      - application/json
+      description: создает новый список минифигурок для пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создание списка минифигурок
+      tags:
+      - usersactions
+  /api/users/{user_token}/partlists:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет список деталей пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удаление списка деталей
+      tags:
+      - usersactions
+    post:
+      consumes:
+      - application/json
+      description: создает новый список деталей для пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создание списка деталей
+      tags:
+      - usersactions
+  /api/users/{user_token}/setlists:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет список наборов пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удаление списка наборов
+      tags:
+      - usersactions
+    patch:
+      consumes:
+      - application/json
+      description: Обновляет пользовательский список деталей
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Обновляет пользовательский список деталей
+      tags:
+      - usersactions
+    post:
+      consumes:
+      - application/json
+      description: создает новый список наборов для пользователя
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Создание списка наборов
+      tags:
+      - usersactions
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Users
+    type: apiKey
+swagger: "2.0"

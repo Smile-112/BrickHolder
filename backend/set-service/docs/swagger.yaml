@@ -1,0 +1,120 @@
+basePath: /
+definitions:
+  models.Set:
+    properties:
+      last_modified_dt:
+        type: string
+      name:
+        type: string
+      num_parts:
+        type: integer
+      set_img_url:
+        type: string
+      set_num:
+        type: string
+      set_url:
+        type: string
+      theme_id:
+        type: integer
+      year:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Сервис для работы с Rebrickable.
+  title: BrickHolder.set-service
+  version: "1.0"
+paths:
+  /api/import/details:
+    post:
+      consumes:
+      - application/json
+      description: Загружает все детали и отправляет в data-service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Импорт всех деталей из Rebrickable
+      tags:
+      - import
+  /api/import/minifigs:
+    post:
+      consumes:
+      - application/json
+      description: Загружает все минифигурки и отправляет в data-service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Импорт всех минифигурок из Rebrickable
+      tags:
+      - import
+  /api/import/series:
+    post:
+      consumes:
+      - application/json
+      description: Загружает все серии и отправляет в data-service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Импорт всех серий из Rebrickable
+      tags:
+      - import
+  /api/import/sets:
+    post:
+      consumes:
+      - application/json
+      description: Загружает все наборы и отправляет в data-service
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Импорт всех наборов из Rebrickable
+      tags:
+      - import
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

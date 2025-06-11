@@ -1,0 +1,71 @@
+basePath: /
+definitions:
+  userActions.Credentials:
+    properties:
+      Логин:
+        type: string
+      Пароль:
+        type: string
+    type: object
+  userActions.TokenResponse:
+    properties:
+      token:
+        type: string
+    type: object
+host: localhost:8082
+info:
+  contact: {}
+  description: Сервис авторизации
+  title: BrickHolder.authentication-service
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login User with name and password
+      parameters:
+      - description: User
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/userActions.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'Успешный вход пользователя '
+          schema:
+            $ref: '#/definitions/userActions.TokenResponse'
+      summary: Login User
+      tags:
+      - Autentification
+  /register:
+    post:
+      consumes:
+      - application/json
+      description: Register User with name and password
+      parameters:
+      - description: User
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/userActions.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешная регистрация нового пользователя
+      summary: Register User
+      tags:
+      - Registration
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

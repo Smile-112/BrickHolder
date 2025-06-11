@@ -1,0 +1,202 @@
+basePath: /
+definitions:
+  models.Series:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      parent:
+        $ref: '#/definitions/models.Series'
+      parent_id:
+        type: integer
+      parent_series_id:
+        description: nullable внешний ключ
+        type: integer
+      series_id:
+        type: integer
+    type: object
+  models.Set:
+    properties:
+      last_modified_dt:
+        type: string
+      name:
+        type: string
+      num_parts:
+        type: integer
+      series:
+        $ref: '#/definitions/models.Series'
+      set_img_url:
+        type: string
+      set_num:
+        type: string
+      set_url:
+        type: string
+      theme_id:
+        description: RebrickableID из Series
+        type: integer
+      year:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      Логин:
+        type: string
+      Пароль:
+        type: string
+      Пометка удаления:
+        type: boolean
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  description: Сервис для работы с базой данных
+  title: BrickHolder.data-service
+  version: "1.0"
+paths:
+  /api/lego/details:
+    get:
+      description: Возвращает список деталей
+      responses: {}
+      summary: Get details
+      tags:
+      - lego
+    post:
+      consumes:
+      - application/json
+      description: Добавляет деталь в базу
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Запись успешно добавлена
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Создать деталь Lego
+      tags:
+      - lego
+  /api/lego/minifigs:
+    get:
+      description: Возвращает список минифигурок
+      responses: {}
+      summary: Get minifigs
+      tags:
+      - lego
+    post:
+      consumes:
+      - application/json
+      description: Добавляет минифигурку в базу
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Запись успешно добавлена
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Создать минифигурку Lego
+      tags:
+      - lego
+  /api/lego/series:
+    get:
+      description: Возвращает список серий
+      responses: {}
+      summary: Get series
+      tags:
+      - lego
+    post:
+      consumes:
+      - application/json
+      description: Добавляет серию в базу
+      parameters:
+      - description: Series data
+        in: body
+        name: series
+        required: true
+        schema:
+          $ref: '#/definitions/models.Series'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Запись успешно добавлена
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Создать серию Lego
+      tags:
+      - lego
+  /api/lego/sets:
+    get:
+      description: Возвращает список наборов
+      responses: {}
+      summary: Get sets
+      tags:
+      - lego
+    post:
+      consumes:
+      - application/json
+      description: Добавляет набор в базу
+      parameters:
+      - description: Set data
+        in: body
+        name: set
+        required: true
+        schema:
+          $ref: '#/definitions/models.Set'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Запись успешно добавлена
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Добавить набор Lego
+      tags:
+      - lego
+  /api/users:
+    get:
+      description: Возвращает список всех пользователей
+      responses: {}
+      summary: Получить список всех пользователей
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Добавляет пользователя в базу при регистрации
+      parameters:
+      - description: Series data
+        in: body
+        name: series
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Запись успешно добавлена
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: Создать пользователя
+      tags:
+      - users
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
