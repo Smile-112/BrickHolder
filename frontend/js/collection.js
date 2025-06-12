@@ -18,10 +18,15 @@ function renderLists() {
     li.textContent = l.name;
     li.dataset.id = l.id;
     li.addEventListener('click', () => selectList(l.id));
+    li.addEventListener('dblclick', () => {
+      selectList(l.id);
+      document.getElementById('list-form').style.display = 'block';
+    });
     listContainer.appendChild(li);
   });
   if (!panel.contains(listContainer)) {
-    panel.appendChild(listContainer);
+    const btn = panel.querySelector('.new-list-btn');
+    panel.insertBefore(listContainer, btn);
   }
 }
 
@@ -93,14 +98,18 @@ function editList() {
   document.getElementById('list-form').style.display = 'block';
 }
 
-async function searchSets() {
+let searchTimeout;
+async function fetchSearchResults() {
   const query = document.getElementById('search-input-set').value.trim();
-  if (!query) return;
+  const container = document.getElementById('search-results');
+  if (!query) {
+    container.innerHTML = '';
+    return;
+  }
   const res = await fetch(`/api/lego/sets?q=${encodeURIComponent(query)}`);
   if (!res.ok) return;
   const data = await res.json();
   const results = data.data || [];
-  const container = document.getElementById('search-results');
   container.innerHTML = '';
   results.forEach(s => {
     const div = document.createElement('div');
@@ -113,6 +122,11 @@ async function searchSets() {
     });
     container.appendChild(div);
   });
+}
+
+function searchSets() {
+  clearTimeout(searchTimeout);
+  searchTimeout = setTimeout(fetchSearchResults, 300);
 }
 
 function addSetToCurrent(set) {
@@ -131,6 +145,12 @@ function initHeader() {
   if (username) {
     loginLink.textContent = username;
     loginLink.removeAttribute('href');
+    loginLink.style.cursor = 'pointer';
+    loginLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('username');
+      window.location.href = 'index.html';
+    });
   } else {
     loginLink.textContent = 'Войти';
     loginLink.setAttribute('href', 'login.html');
@@ -146,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('delete-btn').addEventListener('click', deleteList);
   document.getElementById('list-form').addEventListener('submit', saveCurrentList);
   document.getElementById('edit-btn').addEventListener('click', editList);
-  document.getElementById('add-set-btn').addEventListener('click', searchSets);
+  document.getElementById('add-set-btn').addEventListener('click', fetchSearchResults);
+  document.getElementById('search-input-set').addEventListener('input', searchSets);
   initHeader();
 });
