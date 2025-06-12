@@ -16,11 +16,8 @@ func SendSeriesToDataService(theme models.Series) error {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf("failed to save theme, status: %d", resp.StatusCode)
-	}
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("data-service вернул статус: %s", resp.Status)
+	if resp.StatusCode != http.StatusCreated && resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("data-service returned status: %s", resp.Status)
 	}
 	return nil
 }
@@ -33,11 +30,8 @@ func SendSetToDataService(theme models.Set) error {
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusCreated {
-		return fmt.Errorf("failed to save set, status: %d", resp.StatusCode)
-	}
-	if resp.StatusCode != http.StatusOK {
-		return fmt.Errorf("data-service вернул статус: %s", resp.Status)
+	if resp.StatusCode != http.StatusCreated && resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("data-service returned status: %s", resp.Status)
 	}
 	return nil
 }
