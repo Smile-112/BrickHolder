@@ -106,6 +106,7 @@ async function fetchSearchResults() {
     container.innerHTML = '';
     return;
   }
+
   const baseURL = 'http://localhost:8081';
   const res = await fetch(
     `${baseURL}/api/lego/sets?q=${encodeURIComponent(query)}`
