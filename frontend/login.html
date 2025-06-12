@@ -24,22 +24,20 @@
 
   <main class="container form-container">
     <h1 class="form-title">Регистрация</h1>
-    <form action="#" method="post" class="auth-form">
+    <form class="auth-form" id="auth-form">
       <label>
-        <span class="sr-only">Логин*</span>
-        <input type="text" name="username" placeholder="Логин*" required>
+        <input id="login-input" type="text" placeholder="Логин *" required>
+      </label>
+      <div class="form-hint">* Придумайте уникальное имя</div>
+      <label>
+        <input type="email" placeholder="E-mail">
       </label>
       <label>
-        <span class="sr-only">E-mail</span>
-        <input type="email" name="email" placeholder="E-mail">
-      </label>
-      <label>
-        <span class="sr-only">Пароль</span>
-        <input type="password" name="password" placeholder="Пароль">
+        <input type="password" placeholder="Пароль">
       </label>
       <div class="form-actions">
-        <button type="submit" class="btn-primary">Зарегистрироваться</button>
-        <a href="login.html" class="btn-secondary">Войти</a>
+        <button id="register-btn" type="button" class="btn-primary">Зарегистрироваться</button>
+        <button id="login-btn" type="button" class="btn-secondary">Войти</button>
       </div>
     </form>
   </main>
@@ -47,7 +45,18 @@
   <footer class="site-footer">
     <p>BrickHolder 2025</p>
   </footer>
-</body>
-</html>
+  <script>
+    function processAuth() {
+      const login = document.getElementById('login-input').value.trim();
+      if (!login) {
+        alert('Введите логин');
+        return;
+      }
+      localStorage.setItem('username', login);
+      window.location.href = 'index.html';
+    }
+    document.getElementById('register-btn').addEventListener('click', processAuth);
+    document.getElementById('login-btn').addEventListener('click', processAuth);
+  </script>
 </body>
 </html>
