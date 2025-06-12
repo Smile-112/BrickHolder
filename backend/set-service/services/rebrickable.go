@@ -125,11 +125,37 @@ func FetchAllSets(apiKey string) ([]models.Set, error) {
 	return allSets, nil
 }
 
-
 // Получения списка всех минифигурок
-func FetchAllMinifigs(apiKey string) ([]models.Set, error) {
-	var allMinigigs []models.Set
-	
-	
-	return allMinigigs, nil
+func FetchAllMinifigs(apiKey string) ([]models.Minifig, error) {
+	var allMinifigs []models.Minifig
+	url := "https://rebrickable.com/api/v3/lego/minifigs/"
+
+	client := &http.Client{}
+
+	for url != "" {
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set("Authorization", "key "+apiKey)
+
+		resp, err := client.Do(req)
+		if err != nil {
+			return nil, err
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("failed to fetch minifigs: %s", resp.Status)
+		}
+
+		var mr models.MinifigsResponse
+		if err := json.NewDecoder(resp.Body).Decode(&mr); err != nil {
+			return nil, err
+		}
+
+		allMinifigs = append(allMinifigs, mr.Results...)
+		url = mr.Next
+	}
+	return allMinifigs, nil
 }

@@ -35,3 +35,17 @@ func SendSetToDataService(theme models.Set) error {
 	}
 	return nil
 }
+
+func SendMinifigToDataService(fig models.Minifig) error {
+	jsonData, _ := json.Marshal(fig)
+	resp, err := http.Post("http://localhost:8081/api/lego/minifigs", "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusCreated && resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("data-service returned status: %s", resp.Status)
+	}
+	return nil
+}

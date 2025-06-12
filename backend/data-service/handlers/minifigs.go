@@ -22,19 +22,19 @@ import (
 // @Failure 500
 // @Router /api/lego/minifigs [post]
 func CreateMinifigsHandler(c *gin.Context) {
-	var series models.Series
-	if err := c.ShouldBindJSON(&series); err != nil {
+	var fig models.Minifig
+	if err := c.ShouldBindJSON(&fig); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request body"})
 		return
 	}
 
-	if err := db.DB.Create(&series).Error; err != nil {
-		log.Printf("Failed to save series: %v", err)
-		c.JSON(500, gin.H{"error": "Failed to save series"})
+	if err := db.DB.Create(&fig).Error; err != nil {
+		log.Printf("Failed to save minifig: %v", err)
+		c.JSON(500, gin.H{"error": "Failed to save minifig"})
 		return
 	}
 
-	c.JSON(201, series)
+	c.JSON(201, fig)
 }
 
 // GetAllMinifigsHandler godoc
@@ -43,9 +43,9 @@ func CreateMinifigsHandler(c *gin.Context) {
 // @Router       /api/lego/minifigs [get]
 // @Tags lego
 func GetAllMinifigsHandler(c *gin.Context) {
-	var products []models.Series
-	db.DB.Find(&products)
+	var figs []models.Minifig
+	db.DB.Find(&figs)
 	c.JSON(http.StatusOK, gin.H{
-		"data": products,
+		"data": figs,
 	})
 }
