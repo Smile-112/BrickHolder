@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BrickHolder</title>
+  <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/collection.css">
 </head>
 <body>
@@ -12,7 +13,7 @@
       <div class="site-logo">
         <a href="../pages/index.html"><img src="../assets/logo.png" alt="BrickHolder"></a>
       </div>
-      <nav class="primary-nav">
+      <nav class="header-links" id="extra-links">
         <a href="../pages/collection.html">Моя коллекция</a>
         <a href="../pages/set.html">Наборы</a>
         <a href="../pages/minifigures.html">Минифигурки</a>
@@ -21,7 +22,9 @@
         <label for="search-input">Поиск:</label>
         <input type="text" id="search-input" placeholder="...">
       </div>
-      <nav class="nav-login"><a href="../login.html">Halomeny</a></nav>
+      <nav class="nav-login">
+        <a id="login-link" href="../pages/login.html">Вход</a>
+      </nav>
     </div>
   </header>
 
@@ -30,16 +33,40 @@
     <div class="collections-wrapper">
       <aside class="lists-panel">
         <h3>Списки:</h3>
-        <!-- Сюда будут динамически добавляться списки -->
+        <!-- списки -->
+        <button class="btn-primary new-list-btn">Новый список наборов</button>
       </aside>
       <section class="empty-state">
         <p>Пока не создано ни одного списка.<br>Создайте новый список и добавьте первый набор в коллекцию</p>
         <img src="../assets/empty_coll.png" alt="Пустая коллекция">
-        <a href="../pages/newlist.html"><button class="btn-primary new-list-btn">Новый список наборов</button></a>
+      </section>
+      <section class="list-section" style="display:none">
+        <h3 id="list-title">Новый список <button id="edit-btn" class="edit-icon">✎</button></h3>
+        <form id="list-form" style="display:none" class="list-form">
+          <div class="form-group">
+            <label for="list-name">Название списка</label>
+            <input type="text" id="list-name" required>
+          </div>
+          <div class="form-group">
+            <label for="list-desc">Описание</label>
+            <textarea id="list-desc" rows="3"></textarea>
+          </div>
+          <div class="form-buttons">
+            <button type="button" id="delete-btn" class="btn-delete">Удалить список</button>
+            <button type="submit" class="btn-save">Сохранить</button>
+          </div>
+        </form>
+        <div class="search-add">
+          <input type="text" id="search-input-set" class="search-input" placeholder="Поиск по артикулу/названию">
+          <button type="button" id="add-set-btn" class="btn-add-set">Добавить набор</button>
+        </div>
+        <div id="search-results" class="search-results"></div>
+        <div class="sets-grid"></div>
       </section>
     </div>
   </main>
 
   <footer class="site-footer"><p>BrickHolder 2025</p></footer>
+  <script src="../js/collection.js"></script>
 </body>
 </html>
