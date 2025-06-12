@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Наборы — BrickHolder</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/sets.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="index.html"><img src="../assets/logo.png" alt="BrickHolder"></a>
+      </div>
+      <nav class="primary-nav">
+        <a href="collection.html">Моя коллекция</a>
+        <a href="sets.html">Наборы</a>
+        <a href="minifigures.html">Минифигурки</a>
+      </nav>
+      <div class="header-search">
+        <label for="search-input">Поиск:</label>
+        <input type="text" id="search-input" placeholder="...">
+      </div>
+      <nav class="nav-login">
+        <a id="login-link" href="login.html">Вход</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Наборы</h2>
+    <ul id="series-tree" class="series-tree"></ul>
+  </main>
+
+  <div id="set-modal" class="modal">
+    <div class="modal-content">
+      <span id="modal-close" class="modal-close">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer"><p>BrickHolder 2025</p></footer>
+  <script src="../js/sets.js"></script>
+  <script src="../js/search.js"></script>
+</body>
+</html>
