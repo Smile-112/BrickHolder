@@ -1,14 +1,14 @@
 package services
 
 import (
-	"encoding/json"
-	"fmt"
-	"strconv"
+        "encoding/json"
+        "fmt"
+        "strconv"
 
-	"net/http"
-	"time"
+        "net/http"
+        "time"
 
-	"set-service/models"
+        "set-service/models"
 )
 
 type RebrickableClient struct {
@@ -128,49 +128,67 @@ func FetchAllSets(apiKey string) ([]models.Set, error) {
 
 // Получения списка всех минифигурок
 func FetchAllMinifigs(apiKey string) ([]models.Minifig, error) {
-	var allMinifigs []models.Minifig
-	url := "https://rebrickable.com/api/v3/lego/minifigs/"
+        return FetchMinifigsChunk(apiKey, 1, 100, 0)
+}
 
-	client := &http.Client{}
+// FetchMinifigsChunk загружает указанное количество страниц минифигурок.
+// Если pages == 0, то загружаются все доступные страницы начиная со startPage.
+func FetchMinifigsChunk(apiKey string, startPage, pageSize, pages int) ([]models.Minifig, error) {
+        var allMinifigs []models.Minifig
+        url := fmt.Sprintf("https://rebrickable.com/api/v3/lego/minifigs/?page=%d&page_size=%d", startPage, pageSize)
+        client := &http.Client{}
 
-	for url != "" {
-		req, err := http.NewRequest("GET", url, nil)
-		if err != nil {
-			return nil, err
-		}
-		req.Header.Set("Authorization", "key "+apiKey)
+        fetched := 0
+        wait := time.Second
 
-		resp, err := client.Do(req)
-		if err != nil {
-			return nil, err
-		}
+        for url != "" {
+                req, err := http.NewRequest("GET", url, nil)
+                if err != nil {
+                        return nil, err
+                }
+                req.Header.Set("Authorization", "key "+apiKey)
 
-		if resp.StatusCode == http.StatusTooManyRequests {
-			retryAfter := resp.Header.Get("Retry-After")
-			if sec, err := strconv.Atoi(retryAfter); err == nil {
-				time.Sleep(time.Duration(sec) * time.Second)
-			} else {
-				time.Sleep(2 * time.Second)
-			}
-			resp.Body.Close()
-			continue
-		}
+                resp, err := client.Do(req)
+                if err != nil {
+                        return nil, err
+                }
 
-		if resp.StatusCode != http.StatusOK {
-			return nil, fmt.Errorf("failed to fetch minifigs: %s", resp.Status)
-		}
+                if resp.StatusCode == http.StatusTooManyRequests {
+                        retryAfter := resp.Header.Get("Retry-After")
+                        resp.Body.Close()
+                        if sec, err := strconv.Atoi(retryAfter); err == nil {
+                                time.Sleep(time.Duration(sec)*time.Second + wait)
+                        } else {
+                                time.Sleep(2*time.Second + wait)
+                        }
+                        if wait < time.Minute {
+                                wait *= 2
+                        }
+                        continue
+                }
 
-		var mr models.MinifigsResponse
-		if err := json.NewDecoder(resp.Body).Decode(&mr); err != nil {
-			return nil, err
-		}
+                wait = time.Second
 
-		allMinifigs = append(allMinifigs, mr.Results...)
-		url = mr.Next
-		resp.Body.Close()
+                if resp.StatusCode != http.StatusOK {
+                        return nil, fmt.Errorf("failed to fetch minifigs: %s", resp.Status)
+                }
 
-		// небольшая пауза между запросами, чтобы не превысить лимит
-		time.Sleep(200 * time.Millisecond)
-	}
-	return allMinifigs, nil
+                var mr models.MinifigsResponse
+                if err := json.NewDecoder(resp.Body).Decode(&mr); err != nil {
+                        resp.Body.Close()
+                        return nil, err
+                }
+                resp.Body.Close()
+
+                allMinifigs = append(allMinifigs, mr.Results...)
+                url = mr.Next
+
+                fetched++
+                if pages > 0 && fetched >= pages {
+                        break
+                }
+
+                time.Sleep(wait)
+        }
+        return allMinifigs, nil
 }
