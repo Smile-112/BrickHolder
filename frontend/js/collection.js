@@ -106,8 +106,11 @@ async function fetchSearchResults() {
     container.innerHTML = '';
     return;
   }
-  const res = await fetch('http://localhost:8080/api/lego/sets?q=' +
-                        encodeURIComponent(query));
+  const baseURL = window.location.protocol === 'file:' ?
+                   'http://localhost:8081' : '';
+  const res = await fetch(
+    `${baseURL}/api/lego/sets?q=${encodeURIComponent(query)}`
+  );
   if (!res.ok) return;
   const data = await res.json();
   const results = data.data || [];
