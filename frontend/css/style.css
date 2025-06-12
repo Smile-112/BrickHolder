@@ -112,9 +112,10 @@ body {
 }
 
 .news-item img {
-  width: 240px;
-  height: 135px;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-height: 135px;
+  object-fit: contain;
   display: block;
   margin: 0 auto;
 }
@@ -151,9 +152,10 @@ body {
 }
 
 .feature-card img {
-  width: 240px;
-  height: 160px;
-  object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-height: 160px;
+  object-fit: contain;
   display: block;
   margin: 0 auto;
 }
