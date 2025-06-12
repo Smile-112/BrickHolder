@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const seriesTree = document.getElementById('series-tree');
+  const breadcrumb = document.getElementById('breadcrumb');
   const modal = document.getElementById('set-modal');
   const modalBody = document.getElementById('modal-body');
   const modalClose = document.getElementById('modal-close');
@@ -17,7 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const children = {};
+    const seriesMap = {};
     series.forEach(s => {
+      seriesMap[s.id] = s;
       const pid = s.parent_id || 0;
       if (!children[pid]) children[pid] = [];
       children[pid].push(s);
@@ -25,31 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function buildSeries(sr) {
       const li = document.createElement('li');
-      const header = document.createElement('div');
-      header.className = 'series-item';
+      li.className = 'series-item';
       const img = document.createElement('img');
       const list = setsBySeries[sr.id] || [];
       img.src = list.length ? list[0].set_img_url : '../assets/sets.jpg';
-      header.appendChild(img);
+      li.appendChild(img);
       const span = document.createElement('span');
       span.textContent = sr.name;
-      header.appendChild(span);
-      li.appendChild(header);
-
-      const childContainer = document.createElement('ul');
-      childContainer.className = 'collapsible';
-      li.appendChild(childContainer);
-
-      header.addEventListener('click', () => {
-        childContainer.classList.toggle('open');
-      });
-
-      if (children[sr.id]) {
-        children[sr.id].forEach(ch => childContainer.appendChild(buildSeries(ch)));
-      }
-
-      list.forEach(set => childContainer.appendChild(buildSet(set)));
-
+      li.appendChild(span);
+      li.addEventListener('click', () => renderTree(sr.id));
       return li;
     }
 
@@ -81,7 +68,44 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.classList.add('open');
     }
 
-    (children[0] || []).forEach(sr => seriesTree.appendChild(buildSeries(sr)));
+    function buildBreadcrumb(id) {
+      breadcrumb.innerHTML = '';
+      const path = [];
+      let cur = seriesMap[id];
+      while (cur) {
+        path.unshift(cur);
+        cur = cur.parent_id ? seriesMap[cur.parent_id] : null;
+      }
+      const rootLink = document.createElement('a');
+      rootLink.href = '#';
+      rootLink.textContent = 'Наборы';
+      rootLink.addEventListener('click', e => { e.preventDefault(); renderTree(0); });
+      breadcrumb.appendChild(rootLink);
+      path.forEach(sr => {
+        breadcrumb.appendChild(document.createTextNode(' / '));
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = sr.name;
+        a.addEventListener('click', e => { e.preventDefault(); renderTree(sr.id); });
+        breadcrumb.appendChild(a);
+      });
+    }
+
+    function renderTree(rootId) {
+      const frag = document.createDocumentFragment();
+      (children[rootId] || []).forEach(sr => frag.appendChild(buildSeries(sr)));
+      (setsBySeries[rootId] || []).forEach(set => frag.appendChild(buildSet(set)));
+      seriesTree.innerHTML = '';
+      seriesTree.appendChild(frag);
+      buildBreadcrumb(rootId);
+      seriesTree.classList.add('slide-enter');
+      requestAnimationFrame(() => seriesTree.classList.add('slide-enter-active'));
+      seriesTree.addEventListener('transitionend', () => {
+        seriesTree.classList.remove('slide-enter','slide-enter-active');
+      }, { once: true });
+    }
+
+    renderTree(0);
   }).catch(() => {
     seriesTree.textContent = 'Ошибка загрузки данных';
   });
