@@ -61,7 +61,9 @@
     </section>
 
     <section class="admin-import">
-      <button id="import-btn" class="btn-primary">Импортировать данные</button>
+      <button id="import-series-btn" class="btn-primary">Импортировать серии</button>
+      <button id="import-sets-btn" class="btn-primary">Импортировать наборы</button>
+      <button id="import-minifigs-btn" class="btn-primary">Импортировать минифигурки</button>
     </section>
   </main>
 
@@ -89,15 +91,29 @@
         loginLink.setAttribute('href', 'login.html');
       }
 
-      const importBtn = document.getElementById('import-btn');
-      if (importBtn) {
-        const baseURL = 'http://localhost:8080';
-        importBtn.addEventListener('click', async () => {
+      const baseURL = 'http://localhost:8080';
+
+      const seriesBtn = document.getElementById('import-series-btn');
+      if (seriesBtn) {
+        seriesBtn.addEventListener('click', async () => {
           await fetch(`${baseURL}/api/import/series`, {method: 'POST'});
+          alert('Импорт серий завершен');
+        });
+      }
+
+      const setsBtn = document.getElementById('import-sets-btn');
+      if (setsBtn) {
+        setsBtn.addEventListener('click', async () => {
           await fetch(`${baseURL}/api/import/sets`, {method: 'POST'});
+          alert('Импорт наборов завершен');
+        });
+      }
+
+      const figsBtn = document.getElementById('import-minifigs-btn');
+      if (figsBtn) {
+        figsBtn.addEventListener('click', async () => {
           await fetch(`${baseURL}/api/import/minifigs`, {method: 'POST'});
-          await fetch(`${baseURL}/api/import/details`, {method: 'POST'});
-          alert('Импорт завершен');
+          alert('Импорт минифигурок завершен');
         });
       }
     });
