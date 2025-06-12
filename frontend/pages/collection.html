@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrickHolder</title>
+  <link rel="stylesheet" href="../css/collection.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <a href="../pages/index.html"><img src="../assets/logo.png" alt="BrickHolder"></a>
+      </div>
+      <nav class="primary-nav">
+        <a href="../pages/collection.html">Моя коллекция</a>
+        <a href="../pages/set.html">Наборы</a>
+        <a href="../pages/minifigures.html">Минифигурки</a>
+      </nav>
+      <div class="header-search">
+        <label for="search-input">Поиск:</label>
+        <input type="text" id="search-input" placeholder="...">
+      </div>
+      <nav class="nav-login"><a href="../login.html">Halomeny</a></nav>
+    </div>
+  </header>
+
+  <main class="container collection-container">
+    <h2>Моя коллекция:</h2>
+    <div class="collections-wrapper">
+      <aside class="lists-panel">
+        <h3>Списки:</h3>
+        <!-- Сюда будут динамически добавляться списки -->
+      </aside>
+      <section class="empty-state">
+        <p>Пока не создано ни одного списка.<br>Создайте новый список и добавьте первый набор в коллекцию</p>
+        <img src="../assets/empty_coll.png" alt="Пустая коллекция">
+        <a href="../pages/newlist.html"><button class="btn-primary new-list-btn">Новый список наборов</button></a>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer"><p>BrickHolder 2025</p></footer>
+</body>
+</html>

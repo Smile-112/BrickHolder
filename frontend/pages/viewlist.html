@@ -1,0 +1,77 @@
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Список — BrickHolder</title>
+  <link rel="stylesheet" href="../css/viewlist.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo"><img src="../assets/logo.png" alt="BrickHolder"></div>
+      <nav class="primary-nav">
+        <a href="../pages/collection.html">Моя коллекция</a>
+        <a href="../pages/set.html">Наборы</a>
+        <a href="minifigures.html">Минифигурки</a>
+      </nav>
+      <div class="header-search">
+        <label for="search-input">Поиск:</label>
+        <input type="text" id="search-input" placeholder="...">
+      </div>
+      <nav class="nav-login"><a href="#">Halomeny</a></nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-header">
+      <h2>Моя коллекция:</h2>
+      <h3 class="list-title">Звездные войны <span class="edit-icon">✎</span></h3>
+    </div>
+    <hr>
+    <div class="content-wrapper">
+      <aside class="lists-panel">
+        <h3>Списки:</h3>
+        <ul class="list-items">
+          <li>Звездные войны (8 наборов)</li>
+        </ul>
+        <button class="btn-new-list">Новый список наборов</button>
+      </aside>
+      <section class="list-view-section">
+        <div class="search-add">
+          <input type="text" class="search-input" placeholder="Поиск по артикулу/названию">
+          <button class="btn-add-set">Добавить набор</button>
+        </div>
+        <div class="sets-grid">
+          <!-- Пример карточек наборов -->
+          <div class="set-card">
+            <img src="../assets/set75345.jpg" alt="1x75345">
+            <div class="set-info">
+              <div class="set-code">1x75345</div>
+              <div class="set-name">Star wars</div>
+              <div class="set-parts">(121 деталей)</div>
+              <div class="set-year">2023</div>
+            </div>
+            <div class="set-actions">
+              <button class="btn-action">−</button>
+              <button class="btn-action">👁</button>
+              <button class="btn-action">＋</button>
+            </div>
+          </div>
+          <!-- Повторить для остальных карточек -->
+          <div class="set-card"><img src="../assets/set75280.jpg" alt="1x75280"><div class="set-info"><div class="set-code">1x75280</div><div class="set-name">Star wars</div><div class="set-parts">(285 деталей)</div><div class="set-year">2020</div></div><div class="set-actions"><button class="btn-action">−</button><button class="btn-action">👁</button><button class="btn-action">＋</button></div></div>
+          <div class="set-card"><img src="../assets/set8088.jpg" alt="1x8088"><div class="set-info"><div class="set-code">1x8088</div><div class="set-name">Star wars</div><div class="set-parts">(396 деталей)</div><div class="set-year">2010</div></div><div class="set-actions"><button class="btn-action">−</button><button class="btn-action">👁</button><button class="btn-action">＋</button></div></div>
+          <div class="set-card"><img src="../assets/set9679.jpg" alt="1x9679"><div class="set-info"><div class="set-code">1x9679</div><div class="set-name">Star wars</div><div class="set-parts">(65 деталей)</div><div class="set-year">2012</div></div><div class="set-actions"><button class="btn-action">−</button><button class="btn-action">👁</button><button class="btn-action">＋</button></div></div>
+          <div class="set-card"><img src="../assets/set75337.jpg" alt="1x75337"><div class="set-info"><div class="set-code">1x75337</div><div class="set-name">Star wars</div><div class="set-parts">(1082 деталей)</div><div class="set-year">2022</div></div><div class="set-actions"><button class="btn-action">−</button><button class="btn-action">👁</button><button class="btn-action">＋</button></div></div>
+          <div class="set-card"><img src="../assets/set75239.jpg" alt="1x75239"><div class="set-info"><div class="set-code">1x75239</div><div class="set-name">Star wars</div><div class="set-parts">(235 деталей)</div><div class="set-year">2019</div></div><div class="set-actions"><button class="btn-action">−</button><button class="btn-action">👁</button><button class="btn-action">＋</button></div></div>
+          <div class="set-card"><img src="../assets/set75385.jpg" alt="1x75385"><div class="set-info"><div class="set-code">1x75385</div><div class="set-name">Star wars</div><div class="set-parts">(382 деталей)</div><div class="set-year">2024</div></div><div class="set-actions"><button class="btn-action">−</button><button class="btn-action">👁</button><button class="btn-action">＋</button></div></div>
+          <div class="set-card"><img src="../assets/set7751.jpg" alt="1x7751"><div class="set-info"><div class="set-code">1x7751</div><div class="set-name">Star wars</div><div class="set-parts">(291 деталей)</div><div class="set-year">2009</div></div><div class="set-actions"><button class="btn-action">−</button><button class="btn-action">👁</button><button class="btn-action">＋</button></div></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>BrickHolder 2025</p>
+  </footer>
+</body>
+</html>
