@@ -26,7 +26,12 @@ function renderLists() {
     listContainer.appendChild(li);
   });
   if (!panel.contains(listContainer)) {
-    panel.appendChild(listContainer);
+    const btn = panel.querySelector('.new-list-btn');
+    if (btn) {
+      panel.insertBefore(listContainer, btn);
+    } else {
+      panel.appendChild(listContainer);
+    }
   }
 }
 
