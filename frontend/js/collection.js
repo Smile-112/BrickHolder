@@ -125,7 +125,11 @@ async function fetchSearchResults() {
     results.forEach(s => {
       const div = document.createElement('div');
       div.className = 'search-item';
-      div.textContent = `${s.set_num} - ${s.name}`;
+      div.innerHTML = `
+        <img src="${s.set_img_url || '../assets/sets.jpg'}" alt="${s.set_num}">
+        <span class="set-num">${s.set_num}</span>
+        <span class="set-name">${s.name}</span>
+      `;
       div.addEventListener('click', () => {
         addSetToCurrent(s);
         container.innerHTML = '';
@@ -185,6 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const resultsContainer = document.getElementById('search-results');
   resultsContainer.style.display = 'none';
   searchInputSet.addEventListener('input', searchSets);
+  searchInputSet.addEventListener('focus', () => {
+    if (searchInputSet.value.trim()) {
+      fetchSearchResults();
+    } else if (resultsContainer.innerHTML) {
+      resultsContainer.style.display = 'block';
+    }
+  });
   document.addEventListener('click', (e) => {
     if (!resultsContainer.contains(e.target) && e.target !== searchInputSet) {
       resultsContainer.style.display = 'none';
