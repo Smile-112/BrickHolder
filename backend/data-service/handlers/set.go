@@ -45,7 +45,14 @@ func CreateSetHandler(c *gin.Context) {
 // @Tags lego
 func GetAllSetHandler(c *gin.Context) {
 	var products []models.Set
-	db.DB.Find(&products)
+	query := c.Query("q")
+	if query != "" {
+		pattern := "%" + query + "%"
+		db.DB.Where("set_num ILIKE ? OR name ILIKE ?", pattern, pattern).Find(&products)
+	} else {
+		db.DB.Find(&products)
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"data": products,
 	})
