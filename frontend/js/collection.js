@@ -107,10 +107,13 @@ function renderListCards() {
 function changeQuantity(listId, setNum, delta) {
   const list = lists.find(l => l.id === listId);
   if (!list) return;
-  const set = list.sets.find(s => s.set_num === setNum);
-  if (!set) return;
+  const index = list.sets.findIndex(s => s.set_num === setNum);
+  if (index === -1) return;
+  const set = list.sets[index];
   set.quantity = (set.quantity || 1) + delta;
-  if (set.quantity < 1) set.quantity = 1;
+  if (set.quantity < 1) {
+    list.sets.splice(index, 1);
+  }
   saveLists();
   renderSetCards(list);
 }
