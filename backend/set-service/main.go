@@ -17,6 +17,7 @@ import (
 	"set-service/handlers"
 	"set-service/services"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 
@@ -40,6 +41,7 @@ func main() {
 	setsHandler := handlers.NewSetsHandler(client)
 
 	r := gin.Default()
+	r.Use(cors.Default())
 	api := r.Group("/api")
 	{
 		api.GET("/sets", setsHandler.GetSets)
