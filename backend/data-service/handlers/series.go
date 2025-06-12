@@ -9,6 +9,7 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // CreateSeriesHandler godoc
@@ -26,6 +27,18 @@ func CreateSeriesHandler(c *gin.Context) {
 	var series models.Series
 	if err := c.ShouldBindJSON(&series); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request body"})
+		return
+	}
+
+	var existing models.Series
+	err := db.DB.Where("rebrickable_id = ?", series.RebrickableID).First(&existing).Error
+	if err == nil {
+		// Series already exists – return existing record
+		c.JSON(http.StatusOK, existing)
+		return
+	} else if err != gorm.ErrRecordNotFound {
+		log.Printf("Failed to check existing series: %v", err)
+		c.JSON(500, gin.H{"error": "Failed to save series"})
 		return
 	}
 
