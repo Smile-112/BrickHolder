@@ -63,7 +63,7 @@ paths:
         in: query
         name: pages
         type: integer
-      - default: 100
+      - default: 1000
         description: Размер страницы
         in: query
         name: page_size

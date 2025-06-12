@@ -77,7 +77,7 @@ const docTemplate = `{
                     },
                     {
                         "type": "integer",
-                        "default": 100,
+                        "default": 1000,
                         "description": "Размер страницы",
                         "name": "page_size",
                         "in": "query"

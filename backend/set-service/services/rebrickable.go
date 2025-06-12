@@ -128,7 +128,7 @@ func FetchAllSets(apiKey string) ([]models.Set, error) {
 
 // Получения списка всех минифигурок
 func FetchAllMinifigs(apiKey string) ([]models.Minifig, error) {
-        return FetchMinifigsChunk(apiKey, 1, 100, 0)
+        return FetchMinifigsChunk(apiKey, 1, 1000, 0)
 }
 
 // FetchMinifigsChunk загружает указанное количество страниц минифигурок.
@@ -139,7 +139,7 @@ func FetchMinifigsChunk(apiKey string, startPage, pageSize, pages int) ([]models
         client := &http.Client{}
 
         fetched := 0
-        wait := time.Second
+        wait := 200 * time.Millisecond
 
         for url != "" {
                 req, err := http.NewRequest("GET", url, nil)
@@ -154,20 +154,29 @@ func FetchMinifigsChunk(apiKey string, startPage, pageSize, pages int) ([]models
                 }
 
                 if resp.StatusCode == http.StatusTooManyRequests {
-                        retryAfter := resp.Header.Get("Retry-After")
+                        waitDur := parseRetryAfter(resp.Header.Get("Retry-After"))
                         resp.Body.Close()
-                        if sec, err := strconv.Atoi(retryAfter); err == nil {
-                                time.Sleep(time.Duration(sec)*time.Second + wait)
-                        } else {
-                                time.Sleep(2*time.Second + wait)
+                        if waitDur == 0 {
+                                waitDur = time.Second
                         }
+                        time.Sleep(waitDur)
                         if wait < time.Minute {
                                 wait *= 2
                         }
                         continue
                 }
 
-                wait = time.Second
+                if remaining := resp.Header.Get("X-RateLimit-Remaining"); remaining == "0" {
+                        waitDur := parseRetryAfter(resp.Header.Get("Retry-After"))
+                        if waitDur == 0 {
+                                waitDur = time.Minute
+                        }
+                        resp.Body.Close()
+                        time.Sleep(waitDur)
+                        continue
+                }
+
+                wait = 200 * time.Millisecond
 
                 if resp.StatusCode != http.StatusOK {
                         return nil, fmt.Errorf("failed to fetch minifigs: %s", resp.Status)
@@ -191,4 +200,18 @@ func FetchMinifigsChunk(apiKey string, startPage, pageSize, pages int) ([]models
                 time.Sleep(wait)
         }
         return allMinifigs, nil
+}
+
+// parseRetryAfter преобразует значение заголовка Retry-After в продолжительность ожидания.
+func parseRetryAfter(v string) time.Duration {
+        if v == "" {
+                return 0
+        }
+        if sec, err := strconv.ParseFloat(v, 64); err == nil {
+                if sec <= 0 {
+                        return 0
+                }
+                return time.Duration(sec * float64(time.Second))
+        }
+        return 0
 }
