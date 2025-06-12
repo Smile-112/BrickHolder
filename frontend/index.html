@@ -12,13 +12,17 @@
       <div class="site-logo">
         <img src="assets/logo.png" alt="BrickHolder" />
       </div>
+      <nav class="header-links" id="extra-links">
+        <a href="collection.html">Моя коллекция</a>
+        <a href="#">Наборы</a>
+        <a href="#">Минифигурки</a>
+      </nav>
       <div class="header-search">
         <label for="search-input">Поиск:</label>
         <input type="text" id="search-input" placeholder="...">
       </div>
       <nav class="nav-login">
-        <a href="login.html">Вход</a>
-        <a href="collection.html">Моя коллекция</a>
+        <a id="login-link" href="login.html">Вход</a>
       </nav>
     </div>
   </header>
@@ -60,5 +64,21 @@
   <footer class="site-footer">
     <p>BrickHolder 2025</p>
   </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const links = document.getElementById('extra-links');
+      const loginLink = document.getElementById('login-link');
+      const username = localStorage.getItem('username');
+      if (username) {
+        links.style.display = 'flex';
+        loginLink.textContent = username;
+        loginLink.removeAttribute('href');
+      } else {
+        links.style.display = 'none';
+        loginLink.textContent = 'Войти';
+        loginLink.setAttribute('href', 'login.html');
+      }
+    });
+  </script>
 </body>
 </html>
