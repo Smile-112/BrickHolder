@@ -73,7 +73,6 @@ func FetchAllSeries(apiKey string) ([]models.Series, error) {
 		if err != nil {
 			return nil, err
 		}
-		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusOK {
 			return nil, fmt.Errorf("failed to fetch series: %s", resp.Status)
@@ -86,6 +85,7 @@ func FetchAllSeries(apiKey string) ([]models.Series, error) {
 
 		allSeries = append(allSeries, sr.Results...)
 		url = sr.Next // ссылка на следующую страницу или пустая строка, если последняя
+		resp.Body.Close()
 	}
 	return allSeries, nil
 }
@@ -108,7 +108,6 @@ func FetchAllSets(apiKey string) ([]models.Set, error) {
 		if err != nil {
 			return nil, err
 		}
-		defer resp.Body.Close()
 
 		if resp.StatusCode != http.StatusOK {
 			return nil, fmt.Errorf("failed to fetch set: %s", resp.Status)
@@ -121,15 +120,42 @@ func FetchAllSets(apiKey string) ([]models.Set, error) {
 
 		allSets = append(allSets, sr.Results...)
 		url = sr.Next // ссылка на следующую страницу или пустая строка, если последняя
+		resp.Body.Close()
 	}
 	return allSets, nil
 }
 
-
 // Получения списка всех минифигурок
-func FetchAllMinifigs(apiKey string) ([]models.Set, error) {
-	var allMinigigs []models.Set
-	
-	
-	return allMinigigs, nil
+func FetchAllMinifigs(apiKey string) ([]models.Minifig, error) {
+	var allMinifigs []models.Minifig
+	url := "https://rebrickable.com/api/v3/lego/minifigs/"
+
+	client := &http.Client{}
+
+	for url != "" {
+		req, err := http.NewRequest("GET", url, nil)
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set("Authorization", "key "+apiKey)
+
+		resp, err := client.Do(req)
+		if err != nil {
+			return nil, err
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			return nil, fmt.Errorf("failed to fetch minifigs: %s", resp.Status)
+		}
+
+		var mr models.MinifigsResponse
+		if err := json.NewDecoder(resp.Body).Decode(&mr); err != nil {
+			return nil, err
+		}
+
+		allMinifigs = append(allMinifigs, mr.Results...)
+		url = mr.Next
+		resp.Body.Close()
+	}
+	return allMinifigs, nil
 }

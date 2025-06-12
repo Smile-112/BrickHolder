@@ -47,6 +47,7 @@ func main() {
 		api.GET("/sets", setsHandler.GetSets)
 		api.POST("/import/series", handlers.ImportSeriesHandler)
 		api.POST("/import/sets", handlers.ImportSetsHandler)
+		api.POST("/import/minifigs", handlers.ImportMinifigsHandler)
 	}
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

@@ -43,6 +43,8 @@ func main() {
 		api.GET("/lego/series", handlers.GetAllSeriesHandler)
 		api.POST("/lego/sets", handlers.CreateSetHandler)
 		api.GET("/lego/sets", handlers.GetAllSetHandler)
+		api.POST("/lego/minifigs", handlers.CreateMinifigsHandler)
+		api.GET("/lego/minifigs", handlers.GetAllMinifigsHandler)
 		api.GET("/users", handlers.GetAllUsersHandler)
 		api.POST("/users", handlers.GetAllUsersHandler)
 	}
