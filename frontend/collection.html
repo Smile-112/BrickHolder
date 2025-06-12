@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Моя коллекция — BrickHolder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <img src="assets/logo.png" alt="BrickHolder" />
+      </div>
+      <div class="header-search">
+        <label for="search-input">Поиск:</label>
+        <input type="text" id="search-input" placeholder="...">
+      </div>
+      <nav class="nav-login">
+        <a href="login.html">Выйти</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="collection-header">
+      <h1>Моя коллекция</h1>
+      <a class="btn-primary" href="new_list.html">Новый список наборов</a>
+    </section>
+
+    <section class="lists-container">
+      <article class="list-card">
+        <h2>Моя коллекция наборов</h2>
+        <ul class="set-list">
+          <li>
+            <span>75357 Ghost &amp; Phantom II</span>
+            <div class="list-actions">
+              <button type="button">-</button>
+              <span>1</span>
+              <button type="button">+</button>
+              <a href="set.html">Подробнее</a>
+            </div>
+          </li>
+          <li>
+            <span>75341 Luke Skywalker’s Landspeeder</span>
+            <div class="list-actions">
+              <button type="button">-</button>
+              <span>2</span>
+              <button type="button">+</button>
+              <a href="set.html">Подробнее</a>
+            </div>
+          </li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>BrickHolder 2025</p>
+  </footer>
+</body>
+</html>

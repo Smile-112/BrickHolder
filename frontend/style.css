@@ -51,12 +51,15 @@
 
 .nav-login {
   margin-left: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .nav-login a {
   text-decoration: none;
   font-weight: bold;
   color: #333;
+  margin-left: 10px;
 }
 
 .news-section {
@@ -166,4 +169,59 @@
   .header-search input {
     width: 120px;
   }
+}
+
+/* Collection */
+.collection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #0066cc;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.lists-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.list-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  background: #fff;
+}
+
+.set-list {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.set-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.list-actions button {
+  width: 24px;
+  height: 24px;
+}
+
+.set-photo {
+  width: 100%;
+  max-width: 400px;
+  display: block;
+  margin: 20px 0;
 }
