@@ -104,6 +104,7 @@ async function fetchSearchResults() {
   const container = document.getElementById('search-results');
   if (!query) {
     container.innerHTML = '';
+    container.style.display = 'none';
     return;
   }
 
@@ -115,17 +116,26 @@ async function fetchSearchResults() {
   const data = await res.json();
   const results = data.data || [];
   container.innerHTML = '';
-  results.forEach(s => {
+  if (results.length === 0) {
     const div = document.createElement('div');
-    div.className = 'search-item';
-    div.textContent = `${s.set_num} - ${s.name}`;
-    div.addEventListener('click', () => {
-      addSetToCurrent(s);
-      container.innerHTML = '';
-      document.getElementById('search-input-set').value = '';
-    });
+    div.className = 'search-item no-results';
+    div.textContent = 'Ничего не найдено';
     container.appendChild(div);
-  });
+  } else {
+    results.forEach(s => {
+      const div = document.createElement('div');
+      div.className = 'search-item';
+      div.textContent = `${s.set_num} - ${s.name}`;
+      div.addEventListener('click', () => {
+        addSetToCurrent(s);
+        container.innerHTML = '';
+        document.getElementById('search-input-set').value = '';
+        container.style.display = 'none';
+      });
+      container.appendChild(div);
+    });
+  }
+  container.style.display = 'block';
 }
 
 function searchSets() {
@@ -171,6 +181,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('list-form').addEventListener('submit', saveCurrentList);
   document.getElementById('edit-btn').addEventListener('click', editList);
   document.getElementById('add-set-btn').addEventListener('click', fetchSearchResults);
-  document.getElementById('search-input-set').addEventListener('input', searchSets);
+  const searchInputSet = document.getElementById('search-input-set');
+  const resultsContainer = document.getElementById('search-results');
+  resultsContainer.style.display = 'none';
+  searchInputSet.addEventListener('input', searchSets);
+  document.addEventListener('click', (e) => {
+    if (!resultsContainer.contains(e.target) && e.target !== searchInputSet) {
+      resultsContainer.style.display = 'none';
+    }
+  });
   initHeader();
 });

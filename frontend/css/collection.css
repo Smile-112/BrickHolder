@@ -28,10 +28,29 @@
 .form-buttons { display:flex; justify-content:space-between; margin-bottom:15px; }
 .btn-delete { background:#e57373; border:none; border-radius:20px; padding:6px 16px; font-size:14px; color:#fff; cursor:pointer; }
 .btn-save { background:#a4eb34; border:none; border-radius:20px; padding:6px 16px; font-size:14px; color:#fff; cursor:pointer; }
-.search-add { display:flex; gap:10px; align-items:center; margin:10px 0; }
+.search-add {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin:10px 0;
+  position:relative;
+}
 .search-input { flex:1; padding:8px; border:1px solid #ccc; border-radius:20px; font-size:14px; }
 .btn-add-set { background:#a4eb34; border:none; border-radius:20px; padding:6px 16px; font-size:14px; color:#fff; cursor:pointer; }
-.search-results { max-height:150px; overflow-y:auto; margin-bottom:10px; background:#fff; border:1px solid #ccc; border-radius:8px; }
+.search-results {
+  max-height:150px;
+  overflow-y:auto;
+  margin-top:2px;
+  background:#fff;
+  border:1px solid #ccc;
+  border-radius:8px;
+  position:absolute;
+  left:0;
+  right:0;
+  top:100%;
+  display:none;
+  z-index:1000;
+}
 .search-item { padding:4px 8px; cursor:pointer; }
 .search-item:hover { background:#eee; }
 .sets-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:20px; }
