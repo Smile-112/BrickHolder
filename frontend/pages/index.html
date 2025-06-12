@@ -91,11 +91,12 @@
 
       const importBtn = document.getElementById('import-btn');
       if (importBtn) {
+        const baseURL = window.location.protocol === 'file:' ? 'http://localhost:8080' : '';
         importBtn.addEventListener('click', async () => {
-          await fetch('/api/import/series', {method: 'POST'});
-          await fetch('/api/import/sets', {method: 'POST'});
-          await fetch('/api/import/minifigs', {method: 'POST'});
-          await fetch('/api/import/details', {method: 'POST'});
+          await fetch(`${baseURL}/api/import/series`, {method: 'POST'});
+          await fetch(`${baseURL}/api/import/sets`, {method: 'POST'});
+          await fetch(`${baseURL}/api/import/minifigs`, {method: 'POST'});
+          await fetch(`${baseURL}/api/import/details`, {method: 'POST'});
           alert('Импорт завершен');
         });
       }
