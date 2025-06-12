@@ -3,6 +3,7 @@ package services
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"net/http"
 	"time"
@@ -144,6 +145,17 @@ func FetchAllMinifigs(apiKey string) ([]models.Minifig, error) {
 			return nil, err
 		}
 
+		if resp.StatusCode == http.StatusTooManyRequests {
+			retryAfter := resp.Header.Get("Retry-After")
+			if sec, err := strconv.Atoi(retryAfter); err == nil {
+				time.Sleep(time.Duration(sec) * time.Second)
+			} else {
+				time.Sleep(2 * time.Second)
+			}
+			resp.Body.Close()
+			continue
+		}
+
 		if resp.StatusCode != http.StatusOK {
 			return nil, fmt.Errorf("failed to fetch minifigs: %s", resp.Status)
 		}
@@ -156,6 +168,9 @@ func FetchAllMinifigs(apiKey string) ([]models.Minifig, error) {
 		allMinifigs = append(allMinifigs, mr.Results...)
 		url = mr.Next
 		resp.Body.Close()
+
+		// небольшая пауза между запросами, чтобы не превысить лимит
+		time.Sleep(200 * time.Millisecond)
 	}
 	return allMinifigs, nil
 }
