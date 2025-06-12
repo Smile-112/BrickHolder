@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация — BrickHolder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-container">
+      <div class="site-logo">
+        <img src="assets/logo.png" alt="BrickHolder" />
+      </div>
+      <div class="header-search">
+        <label for="search-input">Поиск:</label>
+        <input type="text" id="search-input" placeholder="...">
+      </div>
+      <nav class="nav-login">
+        <a href="login.html">Вход</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container form-container">
+    <h1 class="form-title">Регистрация</h1>
+    <form action="#" method="post" class="auth-form">
+      <label>
+        <span class="sr-only">Логин*</span>
+        <input type="text" name="username" placeholder="Логин*" required>
+      </label>
+      <label>
+        <span class="sr-only">E-mail</span>
+        <input type="email" name="email" placeholder="E-mail">
+      </label>
+      <label>
+        <span class="sr-only">Пароль</span>
+        <input type="password" name="password" placeholder="Пароль">
+      </label>
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Зарегистрироваться</button>
+        <a href="login.html" class="btn-secondary">Войти</a>
+      </div>
+    </form>
+  </main>
+
+  <footer class="site-footer">
+    <p>BrickHolder 2025</p>
+  </footer>
+</body>
+</html>
+</body>
+</html>
