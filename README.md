@@ -3,17 +3,19 @@
 Тема курсового проекта (работы): Разработка прототипа сервиса для учета коллекции Lego 
 Студент группы  Муждабаев Сергей Георгиевич, ЭФМО-02-24
 
-## Запуск фронтенда
+Was updated by **Smile_112**
 
-Для корректной работы кнопки "Импортировать данные" необходимо, чтобы страница
-открывалась по протоколу `http` или `https`. Запустите любой локальный HTTP
-сервер в каталоге `frontend`, например:
+To launch correctly - use ```LiveServer``` extension in VS Code and launch data-service and set-service with ```go run```
 
-```bash
-cd frontend
-python3 -m http.server
+
+Example of .env file:
+```postgres
+PORT = 8081
+REBRICKABLE_API_KEY = your_key
+DB_HOST = 0.0.0.0
+DB_PORT = 5432
+DB_USER = postgres
+DB_PASSWORD = qwerty
+DB_NAME = brickholder
 ```
 
-После этого откройте в браузере адрес
-`http://localhost:8000/pages/index.html`. Backend‑сервис `set-service` должен
-быть запущен на `http://localhost:8080`.
