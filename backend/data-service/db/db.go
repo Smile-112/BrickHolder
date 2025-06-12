@@ -4,6 +4,7 @@ import (
 	"data-service/models"
 	"log"
 	"os"
+	"fmt"
 
 	_ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
@@ -13,10 +14,17 @@ import (
 var DB *gorm.DB
 
 func Init() error {
-	dsn := os.Getenv("DATABASE_URL") // или строишь строку из отдельных переменных
-	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	if err != nil {
+	host := os.Getenv("DB_HOST")
+    port := os.Getenv("DB_PORT")
+    user := os.Getenv("DB_USER")
+    pass := os.Getenv("DB_PASSWORD")
+
+    dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable",
+        host, port, user, pass,
+    )
+    var err error
+    DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+    if err != nil {
 		return err
 	}
 	log.Println("Database connection established")
