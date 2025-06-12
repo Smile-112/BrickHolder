@@ -32,7 +32,6 @@ func ImportMinifigsHandler(c *gin.Context) {
         startPage, _ := strconv.Atoi(c.DefaultQuery("page", "1"))
         pages, _ := strconv.Atoi(c.DefaultQuery("pages", "0"))
         pageSize, _ := strconv.Atoi(c.DefaultQuery("page_size", "1000"))
-
         figs, err := services.FetchMinifigsChunk(apiKey, startPage, pageSize, pages)
         if err != nil {
                 log.Printf("Failed to fetch minifigs: %v", err)
