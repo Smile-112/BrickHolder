@@ -2,6 +2,7 @@
 
 const listsKey = 'brickholder_lists';
 let lists = JSON.parse(localStorage.getItem(listsKey) || '[]');
+lists.forEach(l => l.sets.forEach(s => { if (!s.quantity) s.quantity = 1; }));
 let currentListId = null;
 
 function saveLists() {
@@ -25,14 +26,21 @@ function renderLists() {
     listContainer.appendChild(li);
   });
   if (!panel.contains(listContainer)) {
-    const btn = panel.querySelector('.new-list-btn');
-    panel.insertBefore(listContainer, btn);
+    panel.appendChild(listContainer);
   }
 }
 
 function showEmptyState(show) {
   document.querySelector('.empty-state').style.display = show ? 'block' : 'none';
-  document.querySelector('.list-section').style.display = show ? 'none' : 'block';
+  document.querySelector('.list-section').style.display = 'none';
+  document.querySelector('.lists-overview').style.display = 'none';
+}
+
+function showOverview() {
+  renderListCards();
+  document.querySelector('.empty-state').style.display = 'none';
+  document.querySelector('.list-section').style.display = 'none';
+  document.querySelector('.lists-overview').style.display = 'grid';
 }
 
 function selectList(id) {
@@ -43,7 +51,9 @@ function selectList(id) {
   document.getElementById('list-name').value = list.name;
   document.getElementById('list-desc').value = list.description || '';
   renderSetCards(list);
-  showEmptyState(false);
+  document.querySelector('.empty-state').style.display = 'none';
+  document.querySelector('.lists-overview').style.display = 'none';
+  document.querySelector('.list-section').style.display = 'block';
 }
 
 function renderSetCards(list) {
@@ -59,9 +69,45 @@ function renderSetCards(list) {
         <div class="set-name">${s.name}</div>
         <div class="set-parts">(${s.num_parts} деталей)</div>
         <div class="set-year">${s.year}</div>
+      </div>
+      <div class="set-qty">
+        <button class="qty-minus">−</button>
+        <span class="qty-value">${s.quantity}</span>
+        <button class="qty-plus">+</button>
       </div>`;
+    card.querySelector('.qty-minus').addEventListener('click', () => changeQuantity(list.id, s.set_num, -1));
+    card.querySelector('.qty-plus').addEventListener('click', () => changeQuantity(list.id, s.set_num, 1));
     grid.appendChild(card);
   });
+}
+
+function renderListCards() {
+  const grid = document.querySelector('.lists-overview');
+  if (!grid) return;
+  grid.innerHTML = '';
+  lists.forEach(l => {
+    const card = document.createElement('div');
+    card.className = 'list-card';
+    const first = l.sets[0];
+    const imgSrc = first ? (first.set_img_url || '../assets/sets.jpg') : '../assets/sets.jpg';
+    card.innerHTML = `
+      <img src="${imgSrc}" alt="${l.name}">
+      <div class="list-card-name">${l.name}</div>
+    `;
+    card.addEventListener('click', () => selectList(l.id));
+    grid.appendChild(card);
+  });
+}
+
+function changeQuantity(listId, setNum, delta) {
+  const list = lists.find(l => l.id === listId);
+  if (!list) return;
+  const set = list.sets.find(s => s.set_num === setNum);
+  if (!set) return;
+  set.quantity = (set.quantity || 1) + delta;
+  if (set.quantity < 1) set.quantity = 1;
+  saveLists();
+  renderSetCards(list);
 }
 
 function newList() {
@@ -79,7 +125,12 @@ function deleteList() {
   lists = lists.filter(l => l.id !== currentListId);
   saveLists();
   renderLists();
-  showEmptyState(lists.length === 0);
+  if (lists.length === 0) {
+    showEmptyState(true);
+  } else {
+    currentListId = null;
+    showOverview();
+  }
 }
 
 function saveCurrentList(e) {
@@ -151,7 +202,7 @@ function addSetToCurrent(set) {
   if (!currentListId) return;
   const list = lists.find(l => l.id === currentListId);
   if (list.sets.find(s => s.set_num === set.set_num)) return;
-  list.sets.push(set);
+  list.sets.push({ ...set, quantity: 1 });
   saveLists();
   renderSetCards(list);
 }
@@ -179,6 +230,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderLists();
   if (lists.length === 0) {
     showEmptyState(true);
+  } else {
+    showOverview();
   }
   document.querySelector('.new-list-btn').addEventListener('click', newList);
   document.getElementById('delete-btn').addEventListener('click', deleteList);
