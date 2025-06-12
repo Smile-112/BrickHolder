@@ -10,7 +10,7 @@ import (
 
 func SendSeriesToDataService(theme models.Series) error {
 	jsonData, _ := json.Marshal(theme)
-	resp, err := http.Post("http://localhost:8081/api/series", "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post("http://localhost:8081/api/lego/series", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func SendSeriesToDataService(theme models.Series) error {
 
 func SendSetToDataService(theme models.Set) error {
 	jsonData, _ := json.Marshal(theme)
-	resp, err := http.Post("http://localhost:8081/api/set", "application/json", bytes.NewBuffer(jsonData))
+	resp, err := http.Post("http://localhost:8081/api/lego/sets", "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
 		return err
 	}
