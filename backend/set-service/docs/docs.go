@@ -49,7 +49,7 @@ const docTemplate = `{
         },
         "/api/import/minifigs": {
             "post": {
-                "description": "Загружает все минифигурки и отправляет в data-service",
+                "description": "Загружает минифигурки частями и отправляет в data-service",
                 "consumes": [
                     "application/json"
                 ],
@@ -59,7 +59,30 @@ const docTemplate = `{
                 "tags": [
                     "import"
                 ],
-                "summary": "Импорт всех минифигурок из Rebrickable",
+                "summary": "Импорт минифигурок из Rebrickable",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "default": 1,
+                        "description": "Страница начала",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Количество страниц (0 - все)",
+                        "name": "pages",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "default": 100,
+                        "description": "Размер страницы",
+                        "name": "page_size",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
