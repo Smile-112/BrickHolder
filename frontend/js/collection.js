@@ -106,7 +106,8 @@ async function fetchSearchResults() {
     container.innerHTML = '';
     return;
   }
-  const res = await fetch(`/api/lego/sets?q=${encodeURIComponent(query)}`);
+  const res = await fetch('http://localhost:8080/api/lego/sets?q=' +
+                        encodeURIComponent(query));
   if (!res.ok) return;
   const data = await res.json();
   const results = data.data || [];
