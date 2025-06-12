@@ -51,7 +51,23 @@ paths:
     post:
       consumes:
       - application/json
-      description: Загружает все минифигурки и отправляет в data-service
+      description: Загружает минифигурки частями и отправляет в data-service
+      parameters:
+      - default: 1
+        description: Страница начала
+        in: query
+        name: page
+        type: integer
+      - default: 0
+        description: Количество страниц (0 - все)
+        in: query
+        name: pages
+        type: integer
+      - default: 1000
+        description: Размер страницы
+        in: query
+        name: page_size
+        type: integer
       produces:
       - application/json
       responses:
@@ -65,7 +81,7 @@ paths:
             additionalProperties:
               type: string
             type: object
-      summary: Импорт всех минифигурок из Rebrickable
+      summary: Импорт минифигурок из Rebrickable
       tags:
       - import
   /api/import/series:
