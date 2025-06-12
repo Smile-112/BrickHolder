@@ -1,8 +1,10 @@
 package handlers
 
 import (
+	"log"
 	"net/http"
 	"os"
+	"set-service/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,13 +25,18 @@ func ImportMinifigsHandler(c *gin.Context) {
 		return
 	}
 
-	//Берем все минифигурки из Rebrickable
-	//series, err := services.FetchAllMinifigs(apiKey)
-	//if err != nil {
-	//	log.Printf("Failed to fetch series: %v", err) // <-- лог
-	//	c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get themes"})
-	//	return
-	//}
+	figs, err := services.FetchAllMinifigs(apiKey)
+	if err != nil {
+		log.Printf("Failed to fetch minifigs: %v", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get minifigs"})
+		return
+	}
 
-	c.JSON(http.StatusOK, gin.H{"status": "series imported successfully"})
+	for _, f := range figs {
+		if err := services.SendMinifigToDataService(f); err != nil {
+			log.Printf("Error sending minifig %s: %v", f.Name, err)
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "minifigs imported successfully"})
 }

@@ -73,6 +73,7 @@ body {
 .search-results { max-height:150px; overflow-y:auto; margin-top:2px; background:#fff; border:1px solid #ccc; border-radius:8px; position:absolute; width:100%; z-index:1000; }
 .search-item { padding:4px 8px; cursor:pointer; }
 .search-item:hover { background:#eee; }
+.no-results { cursor:default; color:#888; }
 
 .nav-login {
   margin-left: 20px;

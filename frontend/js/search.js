@@ -28,13 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await res.json();
       const results = data.data || [];
       container.innerHTML = '';
-      results.forEach(s => {
+      if (results.length === 0) {
         const div = document.createElement('div');
-        div.className = 'search-item';
-        div.textContent = `${s.set_num} - ${s.name}`;
+        div.className = 'search-item no-results';
+        div.textContent = 'Ничего не найдено';
         container.appendChild(div);
-      });
-      container.style.display = results.length ? 'block' : 'none';
+      } else {
+        results.forEach(s => {
+          const div = document.createElement('div');
+          div.className = 'search-item';
+          div.textContent = `${s.set_num} - ${s.name}`;
+          container.appendChild(div);
+        });
+      }
+      container.style.display = 'block';
     } catch (_) {
       container.style.display = 'none';
     }
